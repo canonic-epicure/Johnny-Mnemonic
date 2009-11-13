@@ -278,6 +278,8 @@ StartTest(function(t) {
                                                 t.ok(token == '100', 'Correctly moved to manually entered state - 100')
                                                 t.ok(testLocation.hash == '#100', " .. indeed")
                                                 
+                                                testWindow.close()
+                                                
                                                 t.endAsync(async1)
                                             }
                                         })
