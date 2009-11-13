@@ -15,26 +15,40 @@ StartTest(function(t) {
     var testLocation = null
     var testHistory = null
     
+    var doTestQueue = []
     
-    var testAction = function (params) {
+    var doTestAction = function () {
+        var params = doTestQueue.shift()
+        
+        if (!params) return
+        
         var action  = params.action
         var test    = params.test
         
-        var response = function () {
+        var response = function (mnemonic, token) {
             continueFrom = null
             
-            test()
+            test(token)
             
-            
+            doTestAction()
         }
         
         
         currentMnemonic.on('statechange', response, this, { single : true })
-        continueFrom = response
+        
+        var mnemonicCopy = currentMnemonic
+        continueFrom = function (mnemonic, token) {
+            mnemonicCopy.un('statechange', response, this, { single : true })
+            response(mnemonic, token)
+        }
         
         action()
-        
     }
+    
+    var testAction = function (params) {
+        doTestQueue.push(params)
+    }
+    
     
     run = function (mnemonic, testWindow) {
         currentMnemonic = mnemonic
@@ -77,75 +91,78 @@ StartTest(function(t) {
                         testHistory.back()
                     },
                     
-                    test : function (token, cont) {
+                    test : function (token) {
                         t.ok(token == '20', 'Correctly recalled previous state - 20')
                         t.ok(testLocation.hash == '#20', " .. indeed")
-                        
-                        cont()
+                    }
+                })
+                
+
+                testAction({
+                    action : function () {
+                        testHistory.back()
+                    },
+                    
+                    test : function (token) {
+                        t.ok(token == '10', 'Correctly recalled previous state - 10')
+                        t.ok(testLocation.hash == '#10', " .. indeed")
                     }
                 })
                 
                 
-                
-                mnemonic.on('statechange', function (mnemonic, token) {
-                    t.ok(token == '20', 'Correctly recalled previous state - 20')
-                    t.ok(testLocation.hash == '#20', " .. indeed")
-
-                    
-                    mnemonic.on('statechange', function (mnemonic, token) {
-                        t.ok(token == '10', 'Correctly recalled previous state - 10')
-                        t.ok(testLocation.hash == '#10', " .. indeed")
-    
-                        
-                        mnemonic.on('statechange', function (mnemonic, token) {
-                            t.ok(token == '1', 'Correctly recalled initial state - 1')
-                            t.ok(testLocation.hash == '', " .. and its hash is empty")
-                        
-                            
-                            mnemonic.on('statechange', function (mnemonic, token) {
-                                t.ok(token == '10', 'Correctly recalled next state - 10')
-                                t.ok(testLocation.hash == '#10', " .. indeed")
-        
-                                
-                                mnemonic.on('statechange', function (mnemonic, token) {
-                                    t.ok(token == '20', 'Correctly recalled next state - 20')
-                                    t.ok(testLocation.hash == '#20', " .. indeed")
-                                    
-                                    
-                                    mnemonic.on('statechange', function (mnemonic, token) {
-                                        t.ok(token == '30', 'Correctly recalled next state - 30')
-                                        t.ok(testLocation.hash == '#30', " .. indeed")
-                                        
-                                        t.endAsync(async1)
-                                        
-                                    }, this, { single : true })
-                                    
-                                    testHistory.forward()
-                                    
-                                }, this, { single : true })
-                                
-                                testHistory.forward()
-                                
-                            }, this, { single : true })
-                            
-                            testHistory.forward()
-                            
-                        }, this, { single : true })
-                        
+                testAction({
+                    action : function () {
                         testHistory.back()
-                        
-                    }, this, { single : true })
+                    },
                     
-                    testHistory.back()
-                    
-                }, this, { single : true })
+                    test : function (token) {
+                        t.ok(token == '1', 'Correctly recalled previous state - 1')
+                        t.ok(testLocation.hash == '', " .. and its hash is empty")
+                    }
+                })
                 
-                testHistory.back()
+                
+                testAction({
+                    action : function () {
+                        testHistory.forward()
+                    },
+                    
+                    test : function (token) {
+                        t.ok(token == '10', 'Correctly recalled next state - 10')
+                        t.ok(testLocation.hash == '#10', " .. indeed")
+                    }
+                })
+
+                
+                testAction({
+                    action : function () {
+                        testHistory.forward()
+                    },
+                    
+                    test : function (token) {
+                        t.ok(token == '20', 'Correctly recalled next state - 20')
+                        t.ok(testLocation.hash == '#20', " .. indeed")
+                    }
+                })
+
+                
+                testAction({
+                    action : function () {
+                        testHistory.forward()
+                    },
+                    
+                    test : function (token) {
+                        t.ok(token == '30', 'Correctly recalled next state - 30')
+                        t.ok(testLocation.hash == '#30', " .. indeed")
+                    }
+                })
+                
+                doTestAction()
                 
             }, this, { single : true })
                 
         } else
-            continueFrom()
+            continueFrom(mnemonic, mnemonic.getCurrentToken())
     }
     
 })
