@@ -1,16 +1,14 @@
 StartTest(function(t) {
 	
-    t.plan(18)
+    t.plan(28)
     
     //==================================================================================================================================================================================
     t.diag("Starting test")
     
-    var async1 = t.beginAsync(20000)
+    var async1 = t.beginAsync(35000)
     
     
     var firstRun = true
-    var continueFrom = null
-    var currentMnemonic = null
     var testLocation = null
     var testHistory = null
     
@@ -25,19 +23,12 @@ StartTest(function(t) {
         var test    = params.test
         
         var response = function (mnemonic, token) {
-            continueFrom = null
-            
             test(token)
             
             doTestAction()
         }
         
         onStateChange = response
-        
-        var mnemonicCopy = currentMnemonic
-        continueFrom = function (mnemonic, token) {
-            response(mnemonic, token)
-        }
         
         action()
     }
@@ -48,8 +39,6 @@ StartTest(function(t) {
     
     
     run = function (mnemonic, testWindow) {
-        currentMnemonic = mnemonic
-        
         testLocation = testWindow.location
         testHistory  = testWindow.history
             
@@ -153,8 +142,85 @@ StartTest(function(t) {
                     test : function (token) {
                         t.ok(token == '30', 'Correctly recalled next state - 30')
                         t.ok(testLocation.hash == '#30', " .. indeed")
+                    }
+                })
+                
+                
+                testAction({
+                    action : function () {
+                        testWindow.location.href = '/jsan/Test/Run/static/stub.html'
                         
-                        t.endAsync(async1)
+                        setTimeout(function () {
+                            
+                            testLocation = testWindow.location
+                            testHistory  = testWindow.history
+                            
+                            t.ok(testLocation.hash == '', "Stub page was loaded - no hash on it")
+                            t.ok(testLocation.href.indexOf('/jsan/Test/Run/static/stub.html') != -1, "Stub page was loaded - url is correct")
+                            
+                            testAction({
+                                action : function () {
+                                    testHistory.go(-1)
+                                },
+                                
+                                test : function (token) {
+                                    t.ok(token == '30', 'Correctly recalled previous state - 30')
+                                    t.ok(testLocation.hash == '#30', " .. indeed")
+                                }
+                            })
+                            
+                            testAction({
+                                action : function () {
+                                    testHistory.go(-1)
+                                },
+                                
+                                test : function (token) {
+                                    t.ok(token == '20', 'Correctly recalled previous state - 20')
+                                    t.ok(testLocation.hash == '#20', " .. indeed")
+                                }
+                            })
+                            
+                            testAction({
+                                action : function () {
+                                    testHistory.go(1)
+                                },
+                                
+                                test : function (token) {
+                                    t.ok(token == '30', 'Correctly recalled next state - 30')
+                                    t.ok(testLocation.hash == '#30', " .. indeed")
+                                }
+                            })
+
+                            
+                            testAction({
+                                action : function () {
+                                    testHistory.go(1)
+                                    
+                                    setTimeout(function () {
+                                        
+                                        testLocation = testWindow.location
+                                        testHistory  = testWindow.history
+                                        
+                                        t.ok(testLocation.hash == '', "Stub page was loaded - no hash on it")
+                                        t.ok(testLocation.href.indexOf('/jsan/Test/Run/static/stub.html') != -1, "Stub page was loaded - url is correct")
+                                        
+                                        t.endAsync(async1)
+                                    }, 1000)
+                                },
+                                
+                                test : function (token) {
+                                    t.fail('Test action reach for outer page')
+                                }
+                            })
+                            
+                            
+                            doTestAction()
+                            
+                        }, 1000)
+                    },
+                    
+                    test : function (token) {
+                        t.fail('Test action reach for outer page')
                     }
                 })
                 
@@ -162,8 +228,7 @@ StartTest(function(t) {
                 
             }
                 
-        } else
-            continueFrom(mnemonic, mnemonic.getCurrentToken())
+        }
     }
     
 })
