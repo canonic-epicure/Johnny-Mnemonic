@@ -1,6 +1,6 @@
 StartTest(function(t) {
 	
-    t.plan(1)
+    t.plan(18)
     
     //==================================================================================================================================================================================
     t.diag("Starting test")
@@ -68,6 +68,8 @@ StartTest(function(t) {
             mnemonic.on('statechange', function (mnemonic, token) {
                 
                 t.ok(token == '1', "The very 1st 'statechange' event is with default token")
+                
+                t.diag(testLocation.hash)
                 t.ok(testLocation.hash == '', " and hash is empty")
                 
                 //==================================================================================================================================================================================
@@ -117,7 +119,8 @@ StartTest(function(t) {
                     
                     test : function (token) {
                         t.ok(token == '1', 'Correctly recalled previous state - 1')
-                        t.ok(testLocation.hash == '', " .. and its hash is empty")
+                        
+                        t.ok(testLocation.hash == '' || testLocation.hash == '#', " .. and its hash is empty")
                     }
                 })
                 
@@ -154,6 +157,8 @@ StartTest(function(t) {
                     test : function (token) {
                         t.ok(token == '30', 'Correctly recalled next state - 30')
                         t.ok(testLocation.hash == '#30', " .. indeed")
+                        
+                        t.endAsync(async1)
                     }
                 })
                 
