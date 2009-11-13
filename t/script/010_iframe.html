@@ -16,11 +16,6 @@
         <script type="text/javascript" src="/jsan/Task/JooseX/Namespace/Depended/Web.js"></script>
                     
         <script type="text/javascript">
-            //var INC = []
-            //Joose.A.each([ '../../lib', '/jsan' ], function (path) {
-            //    INC.push(Test.Run.Harness.Browser.Multi.my.resolveUrl(path, true))
-            //}) 
-            
             JooseX.Namespace.Depended.Manager.my.INC = [ '../../lib', '/jsan' ]
             
             use('Johnny.Mnemonic', function () {
@@ -32,16 +27,9 @@
                         defaultToken : '1'
                     })
                     
-                    mnemonic.on('statechange', function (mnemonic, token) {
-                        document.body.innerHTML = token
-                        
-                        parent.onStateChange(token)
+                    mnemonic.setup(function () {
+                        parent.run(mnemonic, window)
                     })
-                    
-                    mnemonic.setup()
-                    
-                    setTimeout(function () {
-                    }, 50)
                 })
             })
 
