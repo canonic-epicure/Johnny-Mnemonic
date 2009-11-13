@@ -2,33 +2,14 @@
 <html>
     <head>
         <script type="text/javascript" src="/jsan/Task/Joose/Core.js"></script>
-    
-        <link rel="stylesheet" type="text/css" href="/jsan/Task/ExtJS/static/css/ext-all.css">
-        <script type="text/javascript" src="/jsan/Task/ExtJS/Adapter/Ext.js"></script>
-
-        <script type="text/javascript" src="/jsan/JooseX/Bridge/Ext.js"></script>
-        <script type="text/javascript" src="/jsan/JooseX/Bridge/Ext/Convertor.js"></script>
-        <script type="text/javascript" src="/jsan/Task/ExtJS/Debug/All.js"></script>
+        <script type="text/javascript" src="/jsan/Task/Test/Run/Core.js"></script>
         
-        <script type="text/javascript" src="/jsan/ExtX/Reference/Slot.js"></script>
-        
-        <link rel="stylesheet" type="text/css" href="/jsan/Test/Run/static/css/all.css">
-        <script type="text/javascript" src="/jsan/Task/Test/Run/ExtJS.js"></script>
-        
-        <script type="text/javascript" src="/jsan/Task/JooseX/Namespace/Depended/Web.js"></script>
-        <script type="text/javascript">
-            var INC = []
-            Joose.A.each([ 'lib', '../lib', '/jsan' ], function (path) {
-                INC.push(Test.Run.Harness.Browser.Multi.my.resolveUrl(path, true))
-            }) 
-            
-            JooseX.Namespace.Depended.Manager.my.INC = INC
-        </script>
-                    
         <script type="text/javascript" src="010_basics.t.js"></script>
     </head>
     
     <body>
+        <iframe src="script/010_iframe.html"></iframe>
+        
 
     </body>
 </html>

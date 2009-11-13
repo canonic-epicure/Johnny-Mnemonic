@@ -2,22 +2,17 @@ StartTest(function(t) {
 	
     t.plan(1)
     
-    t.pass('html')
+    var async1 = t.beginAsync()
     
     
-//var mnemonic = new Johnny.Mnemonic({
-//    hashFrom : 'window',
-//    
-//    defaultToken : '1'
-//})
-//
-//mnemonic.on('statechange', function (mnemonic, token) {
-//    window.parent.onStateChange(token)
-//})
-//
-//mnemonic.setup()
-//
-
+    onStateChange = function (token) {
+        t.pass('onstate reached')
+        
+        t.endAsync(async1)
+    }
+    
+    
+    
     
 //    var async1 = t.beginAsync()
 //    
