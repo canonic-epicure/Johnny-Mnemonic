@@ -7,55 +7,69 @@ Johnny.Mnemonic - Yet another `ajax back button` implementation, on Joose3, with
 SYNOPSIS
 ========
 
-        Class('App.Router', {
-            
-            isa : 'Symbie.Router',
-            
-            routes : {
-                
-                home : {
-                    mapTo : '/home',
-                    
-                    via : function (context, root) {
-                        //root == this, btw
-                        
-                        var layout = root.findOrCreate('App.Layout.Site')
-                        
-                        layout.slot('header').findOrCreate('App.Widget.Header', {
-                            headerPk : 1
-                        })
-                        
-                        layout.slot('center').findOrCreate('App.Widget.Home')
-                        
-                        layout.slot('footer').findOrCreate('App.Widget.Footer', {
-                            footerPk : 1
-                        })
-                    } 
-                },
-                
-                
-                index : {
-                    mapTo : '/',
-                    
-                    via : function (context, root) {
-                        root.collectFrom('home')
-                    }
-                }
-            }
+        var mnemonic = new Johnny.Mnemonic({
+            defaultToken : '/'
+        })
+        
+        mnemonic.on('statechange', function (mnemonic, token) {
+            this.syncState(token)
+        })
+        
+        mnemonic.setup()
+        
+        -or-
+
+        var mnemonic = new Johnny.Mnemonic({
+            defaultToken : '/'
+        })
+        
+        mnemonic.setup(function () {
+        
+            ...
+        
+            mnemonic.on('statechange', function (mnemonic, token) {
+                this.syncState(token)
+            })
         })
 
 
 DESCRIPTION
 ===========
 
-Symbie is a framework for web 2.0 applications, which looks like web-sites.
- 
+Johnny.Mnemonic is a yet another `ajax back button` implementation, with the focus on maintainability. 
+
+Its source code is relatively clean, and, (the most important) it has an automated test suite - this makes it different from others solutions in this area.
+
+Another difference is that Mnemonic do not requires any additional page markup or assets - its a pure javascript solution. 
+
+Currently works on everything except Opera (patches welcome).
+
+
+PROPERTIES
+==========
+
+- `defaultToken`
+
+
+WORKFLOW
+========
+
+Mnemonic has rather simple interface. Usual workflow will be as follows
+
+- Instantiate mnemonic
+
+- Subscribe on its `statechange` event
+
+- Call `setup` method
+
+
+
 
 
 GETTING HELP
 ============
 
-This extension is supported via github issues tracker: [http://github.com/SamuraiJack/Symbie/issues](http://github.com/SamuraiJack/Symbie/issues)
+This extension is supported via github issues tracker: [http://github.com/SamuraiJack/Johnny-Mnemonic/issues](http://github.com/SamuraiJack/Johnny-Mnemonic/issues)
 
 For general Joose questions you can also visit #joose on irc.freenode.org. 
 
@@ -63,18 +77,25 @@ For general Joose questions you can also visit #joose on irc.freenode.org.
 SEE ALSO
 ========
 
-[http://joose.github.com/Joose/doc/html/Joose.html](http://joose.github.com/Joose/doc/html/Joose.html)
+[Documentation for Joose](http://joose.github.com/Joose/doc/html/Joose.html)
 
-Documentation for Joose
+[Documentation for Ext.util.Observable class of ExtJS library](http://www.extjs.com/deploy/dev/docs/?class=Ext.util.Observable)
+
+[Bridge from ExtJS to Joose](http://github.com/SamuraiJack/joosex-bridge-ext/tree/master)
+
+[Based on true story](http://project.cyberpunk.ru/lib/johnny_mnemonic/)
+
 
 
 BUGS
 ====
 
+Test suite can be ran under Chrome - seems it doesn't allow manipulations with window's history from another window.
+With the manual pressing 'back/forward' buttons it works fine though.
+
 All complex software has bugs lurking in it, and this module is no exception.
 
-Please report any bugs through the web interface at [http://github.com/SamuraiJack/Symbie/issues](http://github.com/SamuraiJack/Symbie/issues)
-
+Please report any bugs through the web interface at [http://github.com/SamuraiJack/Johnny-Mnemonic/issues](http://github.com/SamuraiJack/Johnny-Mnemonic/issues)
 
 
 AUTHORS
