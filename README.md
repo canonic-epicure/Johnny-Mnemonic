@@ -1,11 +1,12 @@
 Name
 ====
 
-Johnny.Mnemonic - Yet another `ajax back button` implementation, on Joose3, with the test suite and no required page markup at this time
+Johnny.Mnemonic - Yet another "ajax back button" implementation, written on Joose3, with the test suite and no required page markup at this time
 
 
 SYNOPSIS
 ========
+
 
         var mnemonic = new Johnny.Mnemonic({
             defaultToken : '/',
@@ -44,7 +45,7 @@ SYNOPSIS
 DESCRIPTION
 ===========
 
-Johnny.Mnemonic is a yet another `ajax back button` implementation, with the focus on maintainability. 
+Johnny.Mnemonic is a yet another "ajax back button" implementation, with the focus on maintainability. 
 
 Its source code is relatively clean, and, (the most important) it has an automated test suite - this makes it different from others solutions in this area.
 
@@ -113,7 +114,7 @@ EVENTS
 
 - `statechange(mnemonic, token)`
 
-Will be fired with 2 parameters above. Application should listen this event and synchronize its state according to received state token.
+Will be fired with 2 parameters above. Application should listen on this event and synchronize its state according to received state token.
 
 Note: This event will be also fired for the initial state of the application. So, generally, you shouldn't treat the initial state specially, just
 define a correct synchronization handler. 
@@ -138,7 +139,7 @@ SEE ALSO
 
 [Bridge from ExtJS to Joose](http://github.com/SamuraiJack/joosex-bridge-ext/tree/master)
 
-[Based on](http://project.cyberpunk.ru/lib/johnny_mnemonic/)
+[Dedicated to William Gibson](http://project.cyberpunk.ru/lib/johnny_mnemonic/)
 
 
 
@@ -146,7 +147,7 @@ BUGS
 ====
 
 Currently, test suite can't be ran under Chrome - seems it doesn't allow manipulations with window's history from another window.
-With the manual pressing 'back/forward' buttons it works fine though.
+While pressing the 'back/forward' buttons manually, it works fine though.
 
 All complex software has bugs lurking in it, and this module is no exception.
 
