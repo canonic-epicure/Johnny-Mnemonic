@@ -27,8 +27,12 @@
                         defaultToken : '1'
                     })
                     
+                    mnemonic.on('statechange', function (mnemonic, token) {
+                        opener.onStateChange(mnemonic, token)
+                    })
+                    
                     mnemonic.setup(function () {
-                        parent.run(mnemonic, window)
+                        opener.run(mnemonic, window)
                     })
                 })
             })

@@ -5,7 +5,6 @@ StartTest(function(t) {
     //==================================================================================================================================================================================
     t.diag("Starting test")
     
-    
     var async1 = t.beginAsync(20000)
     
     
@@ -33,12 +32,10 @@ StartTest(function(t) {
             doTestAction()
         }
         
-        
-        currentMnemonic.on('statechange', response, this, { single : true })
+        onStateChange = response
         
         var mnemonicCopy = currentMnemonic
         continueFrom = function (mnemonic, token) {
-            mnemonicCopy.un('statechange', response, this, { single : true })
             response(mnemonic, token)
         }
         
@@ -65,11 +62,10 @@ StartTest(function(t) {
             
             t.pass("'setup' fired a callback")
 
-            mnemonic.on('statechange', function (mnemonic, token) {
+            onStateChange = function (mnemonic, token) {
                 
                 t.ok(token == '1', "The very 1st 'statechange' event is with default token")
                 
-                t.diag(testLocation.hash)
                 t.ok(testLocation.hash == '', " and hash is empty")
                 
                 //==================================================================================================================================================================================
@@ -90,7 +86,7 @@ StartTest(function(t) {
                 
                 testAction({
                     action : function () {
-                        testHistory.back()
+                        testHistory.go(-1)
                     },
                     
                     test : function (token) {
@@ -102,7 +98,7 @@ StartTest(function(t) {
 
                 testAction({
                     action : function () {
-                        testHistory.back()
+                        testHistory.go(-1)
                     },
                     
                     test : function (token) {
@@ -114,7 +110,7 @@ StartTest(function(t) {
                 
                 testAction({
                     action : function () {
-                        testHistory.back()
+                        testHistory.go(-1)
                     },
                     
                     test : function (token) {
@@ -127,7 +123,7 @@ StartTest(function(t) {
                 
                 testAction({
                     action : function () {
-                        testHistory.forward()
+                        testHistory.go(1)
                     },
                     
                     test : function (token) {
@@ -139,7 +135,7 @@ StartTest(function(t) {
                 
                 testAction({
                     action : function () {
-                        testHistory.forward()
+                        testHistory.go(1)
                     },
                     
                     test : function (token) {
@@ -151,7 +147,7 @@ StartTest(function(t) {
                 
                 testAction({
                     action : function () {
-                        testHistory.forward()
+                        testHistory.go(1)
                     },
                     
                     test : function (token) {
@@ -164,7 +160,7 @@ StartTest(function(t) {
                 
                 doTestAction()
                 
-            }, this, { single : true })
+            }
                 
         } else
             continueFrom(mnemonic, mnemonic.getCurrentToken())
