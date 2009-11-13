@@ -8,7 +8,8 @@ SYNOPSIS
 ========
 
         var mnemonic = new Johnny.Mnemonic({
-            defaultToken : '/'
+            defaultToken : '/',
+            hashFrom : 'window'
         })
         
         mnemonic.on('statechange', function (mnemonic, token) {
@@ -31,6 +32,13 @@ SYNOPSIS
                 this.syncState(token)
             })
         })
+        
+        -later-
+        
+        mnemonic.remember(stateToken)
+        
+        mnemonic.back()
+        mnemonic.forward()
 
 
 DESCRIPTION
@@ -45,25 +53,72 @@ Another difference is that Mnemonic do not requires any additional page markup o
 Currently works on everything except Opera (patches welcome).
 
 
+IMPLEMENTATION DETAILS
+======================
+
+Mnemonic can remember arbitrary state tokens (strings), inserting them in the browser's history along the way.
+Tokens are inserted in the hash part of current URL (after the `#` sign).
+
+When user will press 'back/forward' button in the browser, mnemonic will "recall" in what state the application was at that step, and notify your application 
+via its `statechange` event, on which you should listen. You then can synchronize the application state in the event handler.
+
+About events: Johnny.Mnemonic is a subclass of Ext.util.Observable, please refer to its documentation (see below) for details.   
+
+
 PROPERTIES
 ==========
 
 - `defaultToken`
 
+As a special case, the empty hash value is always treated as "default token" and the very initial state of the application. 
 
-WORKFLOW
-========
+Note: You don't need to call the `remember` method with the initial state - instead, supply it with this property.
 
-Mnemonic has rather simple interface. Usual workflow will be as follows
+- `hashFrom`
 
-- Instantiate mnemonic
+The string, referencing the target window, which `location` object mnemonic should examine. Can be either `'window'` or `'top'`. Default value is `'top'`, what should enable
+the usage from iframes.
 
-- Subscribe on its `statechange` event
+ 
+METHODS
+=======
 
-- Call `setup` method
+- `setup([readyFunc], [readyScope])`
+
+Should be called once to initialize the mnemonic instance. Accept the optional callback and its scope, which will be called after the initialization completion.
+
+This callback is the last place to subscribe on the `statechange` event - immediately after it, will be fired the 1st event, with the initial state of the application.
 
 
+- `remember(token)`
 
+Saves the passed `token` in the browser's history, making its available for 'back/forward' buttons. Also displays the token in the hash part of URL.
+
+Note: To avoid creation of extra history step, the hash will not be modified for the initial state, when application was loaded with empty hash.
+
+
+- `back()`
+
+Equivalent of pressing "back" button in browser. Will switch the history on one step back and fire the `statechange` event with the according token.
+You can also call `back` method of `history` object directly.
+
+- `forward()`
+
+Equivalent of pressing "forward" button in browser. Will switch the history on one step forward and fire the `statechange` event with the according token.
+You can also call `forward` method of `history` object directly.
+
+
+EVENTS
+======
+
+- `statechange(mnemonic, token)`
+
+Will be fired with 2 parameters above. Application should listen this event and synchronize its state according to received state token.
+
+Note: This event will be also fired for the initial state of the application. So, generally, you shouldn't treat the initial state specially, just
+define a correct synchronization handler. 
+
+The last place to subscribe on this event is the callback passed to `setup`. Immediately after that callback execution, will be fired the event with the initial state.  
 
 
 GETTING HELP
@@ -83,14 +138,14 @@ SEE ALSO
 
 [Bridge from ExtJS to Joose](http://github.com/SamuraiJack/joosex-bridge-ext/tree/master)
 
-[Based on true story](http://project.cyberpunk.ru/lib/johnny_mnemonic/)
+[Based on](http://project.cyberpunk.ru/lib/johnny_mnemonic/)
 
 
 
 BUGS
 ====
 
-Test suite can be ran under Chrome - seems it doesn't allow manipulations with window's history from another window.
+Currently, test suite can't be ran under Chrome - seems it doesn't allow manipulations with window's history from another window.
 With the manual pressing 'back/forward' buttons it works fine though.
 
 All complex software has bugs lurking in it, and this module is no exception.
