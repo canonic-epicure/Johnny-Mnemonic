@@ -1,11 +1,11 @@
 StartTest(function(t) {
 	
-    t.plan(28)
+    t.plan(36)
     
     //==================================================================================================================================================================================
     t.diag("Starting test")
     
-    var async1 = t.beginAsync(35000)
+    var async1 = t.beginAsync(50000)
     
     
     var firstRun = true
@@ -58,7 +58,7 @@ StartTest(function(t) {
                 t.ok(testLocation.hash == '', " and hash is empty")
                 
                 //==================================================================================================================================================================================
-                t.diag("Remembering")
+                t.diag("Remembering - moving forward")
                 
                 mnemonic.remember(10)
                 t.ok(testLocation.hash == '#10', "Hash was correctly set after 'remember'")
@@ -70,11 +70,11 @@ StartTest(function(t) {
                 t.ok(testLocation.hash == '#30', "Hash was correctly set after 'remember'")
     
                 
-                //==================================================================================================================================================================================
-                t.diag("Recalling")
-                
                 testAction({
                     action : function () {
+                        //==================================================================================================================================================================================
+                        t.diag("Recalling - moving back")
+                        
                         testHistory.go(-1)
                     },
                     
@@ -108,10 +108,13 @@ StartTest(function(t) {
                         t.ok(testLocation.hash == '' || testLocation.hash == '#', " .. and its hash is empty")
                     }
                 })
-                
+
                 
                 testAction({
                     action : function () {
+                        //==================================================================================================================================================================================
+                        t.diag("Recalling - moving forward again")
+                        
                         testHistory.go(1)
                     },
                     
@@ -148,10 +151,16 @@ StartTest(function(t) {
                 
                 testAction({
                     action : function () {
+                        //==================================================================================================================================================================================
+                        t.diag("Leaving current page")
+                        
                         testWindow.location.href = '/jsan/Test/Run/static/stub.html'
                         
                         setTimeout(function () {
                             
+                            //==================================================================================================================================================================================
+                            t.diag("On the outer page")
+                        
                             testLocation = testWindow.location
                             testHistory  = testWindow.history
                             
@@ -160,6 +169,9 @@ StartTest(function(t) {
                             
                             testAction({
                                 action : function () {
+                                    //==================================================================================================================================================================================
+                                    t.diag("On the outer page - go back")
+                                    
                                     testHistory.go(-1)
                                 },
                                 
@@ -194,6 +206,9 @@ StartTest(function(t) {
                             
                             testAction({
                                 action : function () {
+                                    //==================================================================================================================================================================================
+                                    t.diag("To the outer page again")
+                                    
                                     testHistory.go(1)
                                     
                                     setTimeout(function () {
@@ -204,7 +219,71 @@ StartTest(function(t) {
                                         t.ok(testLocation.hash == '', "Stub page was loaded - no hash on it")
                                         t.ok(testLocation.href.indexOf('/jsan/Test/Run/static/stub.html') != -1, "Stub page was loaded - url is correct")
                                         
-                                        t.endAsync(async1)
+                                        //==================================================================================================================================================================================
+                                        t.diag("Back from outer page again")
+                                        
+                                        testAction({
+                                            action : function () {
+                                                //==================================================================================================================================================================================
+                                                t.diag("On the outer page - go back")
+                                                
+                                                testHistory.go(-1)
+                                            },
+                                            
+                                            test : function (token) {
+                                                t.ok(token == '30', 'Correctly recalled previous state - 30')
+                                                t.ok(testLocation.hash == '#30', " .. indeed")
+                                            }
+                                        })
+                                        
+                                        
+                                        testAction({
+                                            action : function () {
+                                                //==================================================================================================================================================================================
+                                                t.diag("Manual entering URL")
+                                                
+                                                testWindow.location.hash = '100'
+                                            },
+                                            
+                                            test : function (token) {
+                                                t.ok(token == '100', 'Correctly moved to manually entered state - 100')
+                                                t.ok(testLocation.hash == '#100', " .. indeed")
+                                            }
+                                        })
+                                        
+                                        
+                                        testAction({
+                                            action : function () {
+                                                //==================================================================================================================================================================================
+                                                t.diag("Back from manual entered URL")
+                                                
+                                                testHistory.go(-1)
+                                            },
+                                            
+                                            test : function (token) {
+                                                t.ok(token == '30', 'Correctly recalled previous state - 30')
+                                                t.ok(testLocation.hash == '#30', " .. indeed")
+                                            }
+                                        })
+                                        
+                                        testAction({
+                                            action : function () {
+                                                //==================================================================================================================================================================================
+                                                t.diag("Forward to manually entered URL")
+                                                
+                                                testHistory.go(1)
+                                            },
+                                            
+                                            test : function (token) {
+                                                t.ok(token == '100', 'Correctly moved to manually entered state - 100')
+                                                t.ok(testLocation.hash == '#100', " .. indeed")
+                                                
+                                                t.endAsync(async1)
+                                            }
+                                        })
+                                        
+                                        doTestAction()
+                                        
                                     }, 1000)
                                 },
                                 
