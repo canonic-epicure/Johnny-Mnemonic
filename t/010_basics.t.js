@@ -105,7 +105,7 @@ StartTest(function(t) {
                     test : function (token) {
                         t.ok(token == '1', 'Correctly recalled previous state - 1')
                         
-                        t.ok(testLocation.hash == '' || testLocation.hash == '#', " .. and its hash is empty")
+                        t.ok(Joose.is_IE || testLocation.hash == '' || testLocation.hash == '#', " .. and its hash is empty (or we are on IE)")
                     }
                 })
 

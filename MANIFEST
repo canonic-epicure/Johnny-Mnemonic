@@ -1,0 +1,15 @@
+inc/Module/Build/Functions.pm
+inc/Module/Build/Functions/DSL.pm
+inc/Module/Build/JSAN/Installable.pm
+inc/Module/JSAN.pm
+inc/Module/JSAN/DSL.pm
+lib/Johnny/Mnemonic.js
+MANIFEST			This list of files
+MANIFEST.SKIP
+README.md
+t/010_basics.t.js
+t/10_basics.t.html
+t/index.html
+t/script/010_iframe.html
+t/visual/index.html
+TODO
