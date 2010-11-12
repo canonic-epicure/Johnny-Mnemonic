@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <script type="text/javascript" src="/jsan/Task/Joose/Core.js"></script>
+        <script type="text/javascript" src="/jsan/Task/JooseX/Namespace/Depended/Auto.js"></script>
+                    
+        <script type="text/javascript">
+        
+	        function launch() {
+	        	
+	            JooseX.Namespace.Depended.Manager.my.INC = [ '../../lib', '/jsan' ]
+	            
+	            use('Johnny.Mnemonic', function () {
+	            
+                    var mnemonic = new Johnny.Mnemonic({
+                        hashFrom : 'window',
+                        
+                        defaultToken : '1'
+                    })
+                    
+                    mnemonic.on('statechange', function (mnemonic, token) {
+                        opener.ON_MNEMONIC_STATECHANGE(mnemonic, token)
+                    })
+                    
+                    mnemonic.setup(function () {
+                        opener.ON_MNEMONIC_READY(mnemonic, window)
+                    })
+	            })
+	        }
+        </script>
+    </head>
+    
+    <body onload="launch()">
+    </body>
+</html>

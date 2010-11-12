@@ -1,11 +1,16 @@
 StartTest(function(t) {
 	
-    t.plan(36)
-    
     //==================================================================================================================================================================================
     t.diag("Starting test")
     
     var async1 = t.beginAsync(50000)
+    
+    window.open('script/010_iframe.html', '_blank')
+    
+    TRY(function () {
+        
+        
+    })
     
     
     var firstRun = true

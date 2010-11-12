@@ -13,19 +13,25 @@ var INC = (isNode ? require.paths : []).concat('../lib', '/jsan')
 
 
 Harness.configure({
-    title     : 'Johnny.Mnemonic Test Suite',
+    title       : 'Johnny.Mnemonic Test Suite',
+    
+    runCore     : 'Sequential',
     
     preload : [
         "jsan:Task.Joose.Core",
         "jsan:Task.JooseX.Namespace.Depended.Auto",
         {
             text : "JooseX.Namespace.Depended.Manager.my.INC = " + Harness.prepareINC(INC)
-        }
+        },
+        "jsan:Task.JooseX.CPS.All",
+        'Johnny.Mnemonic'
     ]
 })
 
 
 Harness.start(
-    '010_sanity.t.js'
+    {
+        url         : '010_basics.t.js',
+        target      : 'Window'
+    }
 )
-
