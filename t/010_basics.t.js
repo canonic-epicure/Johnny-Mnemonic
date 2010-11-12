@@ -23,13 +23,11 @@ StartTest(function(t) {
         var action  = params.action
         var test    = params.test
         
-        var response = function (mnemonic, token) {
+        ON_MNEMONIC_STATE_CHANGE = function (mnemonic, token) {
             test(token)
             
             doTestAction()
         }
-        
-        ON_MNEMONIC_STATE_CHANGE = response
         
         action()
     }

@@ -6,26 +6,19 @@
         <!-- Ext bridge  -->
         
         <link rel="stylesheet" type="text/css" href="/jsan/Task/ExtJS/static/css/ext-all.css">
-        <script type="text/javascript" src="/jsan/Task/ExtJS/Adapter/Ext.js"></script>
-
-        <script type="text/javascript" src="/jsan/JooseX/Meta/Lazy.js"></script>
-        <script type="text/javascript" src="/jsan/JooseX/Bridge/Ext.js"></script>
-        <script type="text/javascript">
-            JooseX.Bridge.Ext.meta.extend({ does : JooseX.Meta.Lazy })
-            Ext.extend = JooseX.Bridge.Ext.my.extend 
-        </script>
         
-        <script type="text/javascript" src="/jsan/Task/ExtJS/Debug/All.js"></script>
+        <script type="text/javascript" src="/jsan/Task/ExtJS/Adapter/Ext.js"></script>
+        <script type="text/javascript" src="/jsan/JooseX/Bridge/Ext.js"></script>
+        <script type="text/javascript" src="/jsan/JooseX/Bridge/Ext/Converter.js"></script>
+        
+        <script type="text/javascript" src="/jsan/Task/ExtJS/All.js"></script>
         
         <!-- eof Ext bridge  -->
         
-        <script type="text/javascript" src="/jsan/JooseX/SimpleRequest.js"></script>
-        <script type="text/javascript" src="/jsan/Task/JooseX/Namespace/Depended/Web.js"></script>
-        
-        <script type="text/javascript" src="/jsan/ExtX/Reference/Slot.js"></script>
+        <script type="text/javascript" src="/jsan/Task/JooseX/Namespace/Depended/Auto.js"></script>
         
         <script type="text/javascript">
-            JooseX.Namespace.Depended.Manager.my.INC = [ '../lib', '../../lib', '/jsan' ]
+            JooseX.Namespace.Depended.Manager.my.INC = [ '../../lib', '/jsan' ]
             
             alert('fresh load')
             
