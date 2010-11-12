@@ -81,6 +81,10 @@ Note: You don't need to call the `remember` method with the initial state - inst
 The string, referencing the target window, which `location` object mnemonic should examine. Can be either `'window'` or `'top'`. Default value is `'top'`, what should enable
 the usage from iframes.
 
+- `exclamation`
+
+Default to `true`. Boolean value, indicating, whether mnemonic should prepend the hash value withe the exclamation like: '#!/' to conform with google recommendations.
+
  
 METHODS
 =======
@@ -121,6 +125,11 @@ Note: This event will be also fired for the initial state of the application. So
 define a correct synchronization handler. 
 
 The last place to subscribe on this event is the callback passed to `setup`. Immediately after that callback execution, will be fired the event with the initial state.  
+
+
+- `ready(mnemonic)`
+
+Will be fired when 'setup' method will initialize the mnemonic.
 
 
 GETTING HELP

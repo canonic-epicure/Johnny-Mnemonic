@@ -60,13 +60,13 @@ StartTest(function(t) {
                 t.diag("Remembering - moving forward")
                 
                 mnemonic.remember(10)
-                t.ok(testLocation.hash == '#10', "Hash was correctly set after 'remember'")
+                t.ok(testLocation.hash == '#!10', "Hash was correctly set after 'remember'")
                 
                 mnemonic.remember(20)
-                t.ok(testLocation.hash == '#20', "Hash was correctly set after 'remember'")
+                t.ok(testLocation.hash == '#!20', "Hash was correctly set after 'remember'")
                 
                 mnemonic.remember(30)
-                t.ok(testLocation.hash == '#30', "Hash was correctly set after 'remember'")
+                t.ok(testLocation.hash == '#!30', "Hash was correctly set after 'remember'")
     
                 
                 testAction({
@@ -79,7 +79,7 @@ StartTest(function(t) {
                     
                     test : function (token) {
                         t.ok(token == '20', 'Correctly recalled previous state - 20')
-                        t.ok(testLocation.hash == '#20', " .. indeed")
+                        t.ok(testLocation.hash == '#!20', " .. indeed")
                     }
                 })
                 
@@ -91,7 +91,7 @@ StartTest(function(t) {
                     
                     test : function (token) {
                         t.ok(token == '10', 'Correctly recalled previous state - 10')
-                        t.ok(testLocation.hash == '#10', " .. indeed")
+                        t.ok(testLocation.hash == '#!10', " .. indeed")
                     }
                 })
                 
@@ -104,7 +104,7 @@ StartTest(function(t) {
                     test : function (token) {
                         t.ok(token == '1', 'Correctly recalled previous state - 1')
                         
-                        t.ok(Joose.is_IE || testLocation.hash == '' || testLocation.hash == '#', " .. and its hash is empty (or we are on IE)")
+                        t.ok(Joose.is_IE || testLocation.hash == '' || testLocation.hash == '#!', " .. and its hash is empty (or we are on IE)")
                     }
                 })
 
@@ -119,7 +119,7 @@ StartTest(function(t) {
                     
                     test : function (token) {
                         t.ok(token == '10', 'Correctly recalled next state - 10')
-                        t.ok(testLocation.hash == '#10', " .. indeed")
+                        t.ok(testLocation.hash == '#!10', " .. indeed")
                     }
                 })
 
@@ -131,7 +131,7 @@ StartTest(function(t) {
                     
                     test : function (token) {
                         t.ok(token == '20', 'Correctly recalled next state - 20')
-                        t.ok(testLocation.hash == '#20', " .. indeed")
+                        t.ok(testLocation.hash == '#!20', " .. indeed")
                     }
                 })
 
@@ -143,7 +143,7 @@ StartTest(function(t) {
                     
                     test : function (token) {
                         t.ok(token == '30', 'Correctly recalled next state - 30')
-                        t.ok(testLocation.hash == '#30', " .. indeed")
+                        t.ok(testLocation.hash == '#!30', " .. indeed")
                     }
                 })
                 
@@ -176,7 +176,7 @@ StartTest(function(t) {
                                 
                                 test : function (token) {
                                     t.ok(token == '30', 'Correctly recalled previous state - 30')
-                                    t.ok(testLocation.hash == '#30', " .. indeed")
+                                    t.ok(testLocation.hash == '#!30', " .. indeed")
                                 }
                             })
                             
@@ -187,7 +187,7 @@ StartTest(function(t) {
                                 
                                 test : function (token) {
                                     t.ok(token == '20', 'Correctly recalled previous state - 20')
-                                    t.ok(testLocation.hash == '#20', " .. indeed")
+                                    t.ok(testLocation.hash == '#!20', " .. indeed")
                                 }
                             })
                             
@@ -198,7 +198,7 @@ StartTest(function(t) {
                                 
                                 test : function (token) {
                                     t.ok(token == '30', 'Correctly recalled next state - 30')
-                                    t.ok(testLocation.hash == '#30', " .. indeed")
+                                    t.ok(testLocation.hash == '#!30', " .. indeed")
                                 }
                             })
 
@@ -231,7 +231,7 @@ StartTest(function(t) {
                                             
                                             test : function (token) {
                                                 t.ok(token == '30', 'Correctly recalled previous state - 30')
-                                                t.ok(testLocation.hash == '#30', " .. indeed")
+                                                t.ok(testLocation.hash == '#!30', " .. indeed")
                                             }
                                         })
                                         
@@ -241,12 +241,12 @@ StartTest(function(t) {
                                                 //==================================================================================================================================================================================
                                                 t.diag("Manual entering URL")
                                                 
-                                                testWindow.location.hash = '100'
+                                                testWindow.location.hash = '!100'
                                             },
                                             
                                             test : function (token) {
                                                 t.ok(token == '100', 'Correctly moved to manually entered state - 100')
-                                                t.ok(testLocation.hash == '#100', " .. indeed")
+                                                t.ok(testLocation.hash == '#!100', " .. indeed")
                                             }
                                         })
                                         
@@ -261,7 +261,7 @@ StartTest(function(t) {
                                             
                                             test : function (token) {
                                                 t.ok(token == '30', 'Correctly recalled previous state - 30')
-                                                t.ok(testLocation.hash == '#30', " .. indeed")
+                                                t.ok(testLocation.hash == '#!30', " .. indeed")
                                             }
                                         })
                                         
@@ -275,7 +275,7 @@ StartTest(function(t) {
                                             
                                             test : function (token) {
                                                 t.ok(token == '100', 'Correctly moved to manually entered state - 100')
-                                                t.ok(testLocation.hash == '#100', " .. indeed")
+                                                t.ok(testLocation.hash == '#!100', " .. indeed")
                                                 
                                                 testWindow.close()
                                                 
