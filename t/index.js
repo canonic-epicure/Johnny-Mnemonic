@@ -16,6 +16,7 @@ Harness.configure({
     title       : 'Johnny.Mnemonic Test Suite',
     
     runCore     : 'Sequential',
+    keepResults : true,
     
     preload : [
         "jsan:Task.Joose.Core",
@@ -30,8 +31,5 @@ Harness.configure({
 
 
 Harness.start(
-    {
-        url         : '010_basics.t.js',
-        target      : 'Window'
-    }
+    '010_basics.t.js'
 )

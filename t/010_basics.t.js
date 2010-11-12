@@ -5,17 +5,13 @@ StartTest(function(t) {
     
     var async1 = t.beginAsync(50000)
     
-    window.open('script/010_iframe.html', '_blank')
     
-    TRY(function () {
-        
-        
-    })
+    window.open('script/bot.html', '_blank', "width=800,height=600")
     
     
-    var firstRun = true
-    var testLocation = null
-    var testHistory = null
+    var firstRun        = true
+    var testLocation    = null
+    var testHistory     = null
     
     var doTestQueue = []
     
@@ -33,7 +29,7 @@ StartTest(function(t) {
             doTestAction()
         }
         
-        onStateChange = response
+        ON_MNEMONIC_STATE_CHANGE = response
         
         action()
     }
@@ -43,7 +39,7 @@ StartTest(function(t) {
     }
     
     
-    run = function (mnemonic, testWindow) {
+    ON_MNEMONIC_READY = function (mnemonic, testWindow) {
         testLocation = testWindow.location
         testHistory  = testWindow.history
             
@@ -56,7 +52,7 @@ StartTest(function(t) {
             
             t.pass("'setup' fired a callback")
 
-            onStateChange = function (mnemonic, token) {
+            ON_MNEMONIC_STATE_CHANGE = function (mnemonic, token) {
                 
                 t.ok(token == '1', "The very 1st 'statechange' event is with default token")
                 
@@ -159,7 +155,7 @@ StartTest(function(t) {
                         //==================================================================================================================================================================================
                         t.diag("Leaving current page")
                         
-                        testWindow.location.href = '/jsan/Test/Run/static/stub.html'
+                        testWindow.location.href = '/jsan/Scope/Provider/static/stub.html'
                         
                         setTimeout(function () {
                             
@@ -170,7 +166,7 @@ StartTest(function(t) {
                             testHistory  = testWindow.history
                             
                             t.ok(testLocation.hash == '', "Stub page was loaded - no hash on it")
-                            t.ok(testLocation.href.indexOf('/jsan/Test/Run/static/stub.html') != -1, "Stub page was loaded - url is correct")
+                            t.ok(testLocation.href.indexOf('/jsan/Scope/Provider/static/stub.html') != -1, "Stub page was loaded - url is correct")
                             
                             testAction({
                                 action : function () {
@@ -222,7 +218,7 @@ StartTest(function(t) {
                                         testHistory  = testWindow.history
                                         
                                         t.ok(testLocation.hash == '', "Stub page was loaded - no hash on it")
-                                        t.ok(testLocation.href.indexOf('/jsan/Test/Run/static/stub.html') != -1, "Stub page was loaded - url is correct")
+                                        t.ok(testLocation.href.indexOf('/jsan/Scope/Provider/static/stub.html') != -1, "Stub page was loaded - url is correct")
                                         
                                         //==================================================================================================================================================================================
                                         t.diag("Back from outer page again")
@@ -286,6 +282,8 @@ StartTest(function(t) {
                                                 testWindow.close()
                                                 
                                                 t.endAsync(async1)
+                                                
+                                                t.done()
                                             }
                                         })
                                         
@@ -311,7 +309,6 @@ StartTest(function(t) {
                 })
                 
                 doTestAction()
-                
             }
                 
         }
