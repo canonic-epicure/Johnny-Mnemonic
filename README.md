@@ -9,11 +9,12 @@ SYNOPSIS
 
 
         var mnemonic = new Johnny.Mnemonic({
-            defaultToken : '/',
-            hashFrom : 'window'
+            defaultToken    : '/',
+            hashFrom        : 'window'
         })
         
         mnemonic.on('statechange', function (mnemonic, token) {
+            
             this.syncState(token)
         })
         
@@ -101,12 +102,12 @@ Note: To avoid creation of extra history step, the hash will not be modified for
 - `back()`
 
 Equivalent of pressing "back" button in browser. Will switch the history on one step back and fire the `statechange` event with the according token.
-You can also call `back` method of `history` object directly.
+You can also call the `back` method of `history` object directly.
 
 - `forward()`
 
 Equivalent of pressing "forward" button in browser. Will switch the history on one step forward and fire the `statechange` event with the according token.
-You can also call `forward` method of `history` object directly.
+You can also call the `forward` method of `history` object directly.
 
 
 EVENTS
@@ -125,7 +126,7 @@ The last place to subscribe on this event is the callback passed to `setup`. Imm
 GETTING HELP
 ============
 
-This extension is supported via github issues tracker: [http://github.com/SamuraiJack/Johnny-Mnemonic/issues](http://github.com/SamuraiJack/Johnny-Mnemonic/issues)
+This extension is supported via github issues tracker: <http://github.com/SamuraiJack/Johnny-Mnemonic/issues>
 
 For general Joose questions you can also visit #joose on irc.freenode.org. 
 
@@ -135,9 +136,7 @@ SEE ALSO
 
 [Documentation for Joose](http://joose.github.com/Joose/doc/html/Joose.html)
 
-[Documentation for Ext.util.Observable class of ExtJS library](http://www.extjs.com/deploy/dev/docs/?class=Ext.util.Observable)
-
-[Bridge from ExtJS to Joose](http://github.com/SamuraiJack/joosex-bridge-ext/tree/master)
+[Documentation for JooseX.Observable extension](http://samuraijack.github.com/JooseX-Observable/doc/html/JooseX/Observable.html)
 
 [Dedicated to William Gibson](http://project.cyberpunk.ru/lib/johnny_mnemonic/)
 
@@ -151,7 +150,7 @@ While pressing the 'back/forward' buttons manually, it works fine though.
 
 All complex software has bugs lurking in it, and this module is no exception.
 
-Please report any bugs through the web interface at [http://github.com/SamuraiJack/Johnny-Mnemonic/issues](http://github.com/SamuraiJack/Johnny-Mnemonic/issues)
+Please report any bugs through the web interface at <http://github.com/SamuraiJack/Johnny-Mnemonic/issues>
 
 
 AUTHORS
@@ -164,7 +163,7 @@ Nickolay Platonov [nplatonov@cpan.org](mailto:nplatonov@cpan.org)
 COPYRIGHT AND LICENSE
 =====================
 
-Copyright (c) 2009, Nickolay Platonov
+Copyright (c) 2010, Nickolay Platonov
 
 All rights reserved.
 
