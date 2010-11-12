@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="http://bit.ly/multi_markdown_style_css " />
+	</head>
+<body>
+<h1 id="name">Name</h1>
+
+<p>Johnny.Mnemonic - Yet another "ajax back button" implementation, written on Joose3, with the test suite and no required page markup at this time</p>
+
+<h1 id="synopsis">SYNOPSIS</h1>
+
+<pre><code>    var mnemonic = new Johnny.Mnemonic({
+        defaultToken    : '/',
+        hashFrom        : 'window'
+    })
+
+    mnemonic.on('statechange', function (mnemonic, token) {
+
+        this.syncState(token)
+    })
+
+    mnemonic.setup()
+
+    -or-
+
+    var mnemonic = new Johnny.Mnemonic({
+        defaultToken : '/'
+    })
+
+    mnemonic.setup(function () {
+
+        ...
+
+        mnemonic.on('statechange', function (mnemonic, token) {
+            this.syncState(token)
+        })
+    })
+
+    -later-
+
+    mnemonic.remember(stateToken)
+
+    mnemonic.back()
+    mnemonic.forward()
+</code></pre>
+
+<h1 id="description">DESCRIPTION</h1>
+
+<p>Johnny.Mnemonic is a yet another "ajax back button" implementation, with the focus on maintainability. </p>
+
+<p>Its source code is relatively clean, and, (the most important) it has an automated test suite - this makes it different from others solutions in this area.</p>
+
+<p>Another difference is that Mnemonic do not requires any additional page markup or assets - its a pure javascript solution. </p>
+
+<p>Currently works on everything except Opera (patches welcome).</p>
+
+<h1 id="implementationdetails">IMPLEMENTATION DETAILS</h1>
+
+<p>Mnemonic can remember arbitrary state tokens (strings), inserting them in the browser's history along the way.
+Tokens are inserted in the hash part of current URL (after the <code>#</code> sign).</p>
+
+<p>When user will press 'back/forward' button in the browser, mnemonic will "recall" in what state the application was at that step, and notify your application 
+via its <code>statechange</code> event, on which you should listen. You then can synchronize the application state in the event handler.</p>
+
+<p>About events: Johnny.Mnemonic is a subclass of Ext.util.Observable, please refer to its documentation (see below) for details.   </p>
+
+<h1 id="properties">PROPERTIES</h1>
+
+<ul>
+<li><code>defaultToken</code></li>
+</ul>
+
+<p>As a special case, the empty hash value is always treated as "default token" and the very initial state of the application. </p>
+
+<p>Note: You don't need to call the <code>remember</code> method with the initial state - instead, supply it with this property.</p>
+
+<ul>
+<li><code>hashFrom</code></li>
+</ul>
+
+<p>The string, referencing the target window, which <code>location</code> object mnemonic should examine. Can be either <code>'window'</code> or <code>'top'</code>. Default value is <code>'top'</code>, what should enable
+the usage from iframes.</p>
+
+<h1 id="methods">METHODS</h1>
+
+<ul>
+<li><code>setup([readyFunc], [readyScope])</code></li>
+</ul>
+
+<p>Should be called once to initialize the mnemonic instance. Accept the optional callback and its scope, which will be called after the initialization completion.</p>
+
+<p>This callback is the last place to subscribe on the <code>statechange</code> event - immediately after it, will be fired the 1st event, with the initial state of the application.</p>
+
+<ul>
+<li><code>remember(token)</code></li>
+</ul>
+
+<p>Saves the passed <code>token</code> in the browser's history, making its available for 'back/forward' buttons. Also displays the token in the hash part of URL.</p>
+
+<p>Note: To avoid creation of extra history step, the hash will not be modified for the initial state, when application was loaded with empty hash.</p>
+
+<ul>
+<li><code>back()</code></li>
+</ul>
+
+<p>Equivalent of pressing "back" button in browser. Will switch the history on one step back and fire the <code>statechange</code> event with the according token.
+You can also call the <code>back</code> method of <code>history</code> object directly.</p>
+
+<ul>
+<li><code>forward()</code></li>
+</ul>
+
+<p>Equivalent of pressing "forward" button in browser. Will switch the history on one step forward and fire the <code>statechange</code> event with the according token.
+You can also call the <code>forward</code> method of <code>history</code> object directly.</p>
+
+<h1 id="events">EVENTS</h1>
+
+<ul>
+<li><code>statechange(mnemonic, token)</code></li>
+</ul>
+
+<p>Will be fired with 2 parameters above. Application should listen on this event and synchronize its state according to received state token.</p>
+
+<p>Note: This event will be also fired for the initial state of the application. So, generally, you shouldn't treat the initial state specially, just
+define a correct synchronization handler. </p>
+
+<p>The last place to subscribe on this event is the callback passed to <code>setup</code>. Immediately after that callback execution, will be fired the event with the initial state.  </p>
+
+<h1 id="gettinghelp">GETTING HELP</h1>
+
+<p>This extension is supported via github issues tracker: <a href="http://github.com/SamuraiJack/Johnny-Mnemonic/issues">http://github.com/SamuraiJack/Johnny-Mnemonic/issues</a></p>
+
+<p>For general Joose questions you can also visit #joose on irc.freenode.org. </p>
+
+<h1 id="seealso">SEE ALSO</h1>
+
+<p><a href="http://joose.github.com/Joose/doc/html/Joose.html">Documentation for Joose</a></p>
+
+<p><a href="http://samuraijack.github.com/JooseX-Observable/doc/html/JooseX/Observable.html">Documentation for JooseX.Observable extension</a></p>
+
+<p><a href="http://project.cyberpunk.ru/lib/johnny_mnemonic/">Dedicated to William Gibson</a></p>
+
+<h1 id="bugs">BUGS</h1>
+
+<p>Currently, test suite can't be ran under Chrome - seems it doesn't allow manipulations with window's history from another window.
+While pressing the 'back/forward' buttons manually, it works fine though.</p>
+
+<p>All complex software has bugs lurking in it, and this module is no exception.</p>
+
+<p>Please report any bugs through the web interface at <a href="http://github.com/SamuraiJack/Johnny-Mnemonic/issues">http://github.com/SamuraiJack/Johnny-Mnemonic/issues</a></p>
+
+<h1 id="authors">AUTHORS</h1>
+
+<p>Nickolay Platonov <a href="mailto:nplatonov@cpan.org">nplatonov@cpan.org</a></p>
+
+<h1 id="copyrightandlicense">COPYRIGHT AND LICENSE</h1>
+
+<p>Copyright (c) 2010, Nickolay Platonov</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Nickolay Platonov nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </p>
+</body>
+</html>
